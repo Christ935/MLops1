@@ -24,3 +24,31 @@ outs:
   nfiles: 16643
   hash: md5
   path: data
+
+Q6
+On GitHub, the project code and the data.dvc pointer file are present,
+but the actual dataset is not stored there because the data folder is
+ignored by Git.
+
+The data.dvc file contains the information needed by DVC to identify
+the correct version of the dataset.
+
+I initially configured DagsHub as the DVC remote, but the upload
+repeatedly failed because of server disconnections. Therefore, I used
+the local DVC remote option recommended in the lab instructions.
+
+The actual dataset is now stored in my local DVC remote outside the
+Git repository.
+
+Q7
+I cloned the GitHub repository into a new temporary folder to check if the dataset was included automatically.
+git clone https://github.com/Christ935/MLops1.git lab1-test
+cd lab1-test
+After cloning, the actual data folder was not there because Git only stores the project files and the data.dvc pointer, not the dataset itself. The lab specifically expects this behavior and asks which DVC command is needed to get the data back. lab1-git-dvc-data
+Because I used a local DVC remote instead of DagsHub, I connected the temporary clone to the same local remote:
+dvc remote add --local localremote C:\Users\96176\Desktop\MLOps-AI\MLOps-DVC-Remote
+dvc remote default --local localremote
+Then I downloaded the dataset with:
+dvc pull
+After dvc pull finished, the data/food11_raw folder was restored with the training, evaluation, and validation folders.
+
